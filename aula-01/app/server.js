@@ -7,8 +7,8 @@ app.use(express.json());
 app.get('/', (req, res) => {
   res.json({
     servico: 'DevOps Portfolio API',
-    aluno: 'SEU NOME AQUI',
-    ra: 'SEU RA AQUI',
+    aluno: 'FERNANDA ROSA NOVAIS TAVARES',
+    ra: '4025109',
     aula: '01 - Fundamentos de Git e Docker',
     status: 'online',
     timestamp: new Date().toISOString()
