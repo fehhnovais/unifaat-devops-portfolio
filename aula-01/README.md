@@ -2,8 +2,10 @@
 
 ## O que aprendi
 
-- [Descreva 3-5 conceitos que aprendeu sobre Git]
-- [Descreva 3-5 conceitos que aprendeu sobre Docker]
+Na Aula 01 pratiquei o fluxo básico de Git utilizando uma branch de feature separada da `main`. Também aprendi a criar commits organizados e a realizar o merge das alterações na branch principal.
+
+Além disso, desenvolvi uma aplicação simples com Express e aprendi a criar uma imagem Docker para executar a aplicação em um container.
+
 
 ## Comandos Git praticados
 
@@ -32,6 +34,7 @@ cd aula-01/app
 docker build -t portfolio-aula01:1.0 .
 docker run -d -p 3000:3000 portfolio-aula01:1.0
 curl http://localhost:3000
+
 
 
 
