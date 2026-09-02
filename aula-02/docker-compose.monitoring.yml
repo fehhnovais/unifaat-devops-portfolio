@@ -1,0 +1,38 @@
+version: '3.8'
+
+# Docker Compose com ferramentas de monitoramento (OPCIONAL)
+# Para usar: docker-compose -f docker-compose.yml -f docker-compose.monitoring.yml up -d
+
+services:
+  # Adminer - Interface Web para PostgreSQL
+  adminer:
+    image: adminer:latest
+    container_name: adminer
+    ports:
+      - "8080:8080"
+    networks:
+      - app_network
+    environment:
+      - ADMINER_DEFAULT_SERVER=postgres
+    restart: unless-stopped
+    depends_on:
+      - postgres
+
+  # Redis Commander - Interface Web para Redis
+  redis-commander:
+    image: rediscommander/redis-commander:latest
+    container_name: redis_commander
+    ports:
+      - "8081:8081"
+    networks:
+      - app_network
+    environment:
+      - REDIS_HOSTS=local:redis:6379
+    restart: unless-stopped
+    depends_on:
+      - redis
+
+networks:
+  app_network:
+    external: true
+    name: nodejs_app_network
