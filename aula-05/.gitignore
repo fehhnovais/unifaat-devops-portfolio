@@ -1,0 +1,52 @@
+# Diretórios do Terraform
+**/.terraform/*
+.terraform/
+
+# Arquivos de estado (NUNCA commitar — contém dados sensíveis)
+*.tfstate
+*.tfstate.*
+*.tfstate.backup
+
+# Arquivo de variáveis com senha (NUNCA commitar)
+terraform.tfvars
+*.tfvars.json
+
+# Planos binários
+*tfplan*
+tfplan
+
+# Logs de crash
+crash.log
+crash.*.log
+
+# Arquivos de override locais
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+
+# CLI config
+.terraformrc
+terraform.rc
+
+# Chaves SSH (NUNCA commitar)
+*.pem
+*.key
+
+# Credenciais AWS (NUNCA commitar)
+aws-creds.sh
+*.sh.bak
+
+# Lock file do provider (pode ser commitado — mantém versão dos providers)
+# .terraform.lock.hcl  ← descomente para ignorar
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~

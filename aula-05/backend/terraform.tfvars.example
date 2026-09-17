@@ -1,0 +1,8 @@
+# Copie este arquivo para terraform.tfvars e preencha os valores
+
+aws_region   = "us-east-1"
+project_name = "technova"
+
+# Use o Account ID da sua conta AWS como sufixo para garantir nome único
+# Para descobrir: aws sts get-caller-identity --query Account --output text
+bucket_suffix = "SEU-ACCOUNT-ID-AQUI"
