@@ -1,0 +1,41 @@
+# Diretórios do Terraform
+**/.terraform/*
+.terraform/
+
+# Arquivos de estado (NUNCA commitar)
+*.tfstate
+*.tfstate.*
+*.tfstate.backup
+
+# Variáveis com senha (NUNCA commitar)
+terraform.tfvars
+*.tfvars.json
+
+# Planos binários
+*tfplan*
+tfplan
+
+# Logs
+crash.log
+crash.*.log
+
+# Overrides locais
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+
+# CLI config
+.terraformrc
+terraform.rc
+
+# Chaves SSH
+*.pem
+*.key
+
+# OS / IDE
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp

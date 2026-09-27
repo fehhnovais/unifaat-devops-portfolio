@@ -1,6 +1,6 @@
 # =============================================
 # providers.tf — Aula 04: VPC + EC2 Multi-AZ
-# TechNova — Emilly Santos de Oliveira (4023575)
+# TechNova — Fernanda Rosa Novais Tavares (4025109)
 # =============================================
 
 terraform {

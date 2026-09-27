@@ -1,6 +1,6 @@
 # =============================================
 # variables.tf — Aula 04: VPC + EC2 Multi-AZ
-# TechNova — Emilly Santos de Oliveira (4023575)
+# TechNova — Fernanda Rosa Novais Tavares (4025109)
 # =============================================
 
 # ── Identificação ─────────────────────────────
@@ -20,13 +20,13 @@ variable "environment" {
 variable "aluno" {
   description = "Nome completo do aluno"
   type        = string
-  default     = "Emilly Santos de Oliveira"
+  default     = "Fernanda Rosa Novais Tavares"
 }
 
 variable "ra" {
   description = "Número de matrícula (RA) do aluno"
   type        = string
-  default     = "4023575"
+  default     = "4025109"
 }
 
 # ── AWS ───────────────────────────────────────

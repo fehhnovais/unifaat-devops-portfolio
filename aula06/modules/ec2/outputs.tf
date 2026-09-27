@@ -1,0 +1,19 @@
+output "instance_id" {
+  description = "ID da instância EC2"
+  value       = aws_instance.this.id
+}
+
+output "public_ip" {
+  description = "IP público da instância EC2"
+  value       = aws_instance.this.public_ip
+}
+
+output "private_ip" {
+  description = "IP privado da instância EC2"
+  value       = aws_instance.this.private_ip
+}
+
+output "availability_zone" {
+  description = "Availability Zone onde a instância foi provisionada"
+  value       = aws_instance.this.availability_zone
+}

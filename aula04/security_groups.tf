@@ -1,6 +1,6 @@
 # =============================================
 # security_groups.tf — Security Groups da TechNova
-# TechNova — Emilly Santos de Oliveira (4023575)
+# TechNova — Fernanda Rosa Novais Tavares (4025109)
 # =============================================
 
 # ── Security Group da API ─────────────────────

@@ -1,6 +1,6 @@
 # =============================================
 # networking.tf — VPC, Subnets, IGW, Route Tables
-# TechNova — Emilly Santos de Oliveira (4023575)
+# TechNova — Fernanda Rosa Novais Tavares (4025109)
 # =============================================
 
 # ── Locals ────────────────────────────────────

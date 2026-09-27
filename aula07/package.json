@@ -1,0 +1,12 @@
+{
+  "name": "technova-reserva-salas",
+  "version": "1.0.0",
+  "description": "API de Reserva de Salas de Reunião - Aula 07 (Spec-Driven)",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "4.18.2"
+  }
+}

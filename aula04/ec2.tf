@@ -1,6 +1,6 @@
 # =============================================
 # ec2.tf — Key Pair, AMI data source e EC2
-# TechNova — Emilly Santos de Oliveira (4023575)
+# TechNova — Fernanda Rosa Novais Tavares (4025109)
 # =============================================
 
 # ── Data Source: Amazon Linux 2023 AMI ───────
@@ -122,8 +122,8 @@ locals {
       res.json({
         message:     'TechNova API — Aula 04 VPC + EC2 Multi-AZ',
         status:      'running',
-        aluno:       'Emilly Santos de Oliveira',
-        ra:          '4023575',
+        aluno:       'Fernanda Rosa Novais Tavares',
+        ra:          '4025109',
         version:     '1.0.0',
         timestamp:   new Date().toISOString(),
         hostname:    os.hostname(),

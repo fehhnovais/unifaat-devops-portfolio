@@ -1,0 +1,78 @@
+================================================================================
+EVIDÊNCIA — terraform plan
+Aula 03: Terraform + IAM | TechNova
+Aluno: Fernanda Rosa Novais Tavares (RA 4025109)
+================================================================================
+
+Como gerar esta evidência (rode no AWS Academy Learner Lab, com credenciais ativas):
+
+    terraform init
+    terraform validate
+    terraform plan -no-color | Tee-Object terraform-plan-output.txt
+
+Substitua o conteúdo abaixo pela saída REAL do seu `terraform plan`.
+
+--------------------------------------------------------------------------------
+RESUMO ESPERADO DO PLANO
+--------------------------------------------------------------------------------
+Terraform used the selected providers to generate the following execution plan.
+Resource actions are indicated with the following symbols:
+  + create
+
+Terraform will perform the following actions:
+
+  # aws_iam_group.technova_developers        will be created  (+)
+  # aws_iam_group.technova_platform_eng      will be created  (+)
+  # aws_iam_group.technova_interns           will be created  (+)
+
+  # aws_iam_user.juliana_santos              will be created  (+)
+  # aws_iam_user.rafael_oliveira             will be created  (+)
+  # aws_iam_user.lucas_intern                will be created  (+)
+
+  # aws_iam_user_group_membership.juliana_membership   will be created  (+)
+  # aws_iam_user_group_membership.rafael_membership    will be created  (+)
+  # aws_iam_user_group_membership.lucas_membership     will be created  (+)
+
+  # aws_iam_policy.developer_policy          will be created  (+)
+  # aws_iam_policy.platform_eng_policy       will be created  (+)
+  # aws_iam_policy.intern_policy             will be created  (+)
+
+  # aws_iam_group_policy_attachment.developers_policy_attachment    will be created  (+)
+  # aws_iam_group_policy_attachment.platform_eng_policy_attachment  will be created  (+)
+  # aws_iam_group_policy_attachment.interns_policy_attachment       will be created  (+)
+
+  # aws_iam_role.ec2_s3_access_role          will be created  (+)
+  # aws_iam_role_policy.ec2_s3_access_policy will be created  (+)
+  # aws_iam_instance_profile.ec2_s3_instance_profile  will be created  (+)
+
+Plan: 18 to add, 0 to change, 0 to destroy.
+
+Changes to Outputs:
+  + ec2_role_arn          = (known after apply)
+  + ec2_role_name         = "technova-ec2-s3-access-role"
+  + group_arns            = (known after apply)
+  + group_names           = [
+      + "technova-developers",
+      + "technova-platform-eng",
+      + "technova-interns",
+    ]
+  + instance_profile_arn  = (known after apply)
+  + instance_profile_name = "technova-ec2-s3-instance-profile"
+  + policy_arns           = (known after apply)
+  + user_arns             = (known after apply)
+  + user_names            = [
+      + "juliana.santos",
+      + "rafael.oliveira",
+      + "lucas.intern",
+    ]
+
+--------------------------------------------------------------------------------
+NOTA
+--------------------------------------------------------------------------------
+- Total esperado: 18 recursos a criar (3 groups + 3 users + 3 memberships
+  + 3 policies + 3 attachments + 1 role + 1 role_policy + 1 instance_profile).
+- `terraform validate` já foi executado localmente com sucesso:
+  "Success! The configuration is valid."
+- Cole a saída real do plan (e/ou um screenshot) para comprovar a execução
+  no AWS Academy.
+================================================================================

@@ -1,6 +1,6 @@
 # =============================================
 # .gitignore — Terraform (Aula 04)
-# TechNova — Emilly Santos de Oliveira (4023575)
+# TechNova — Fernanda Rosa Novais Tavares (4025109)
 # =============================================
 
 # ── Diretório de providers do Terraform ──────
@@ -14,11 +14,9 @@
 *.tfstate.*.backup
 
 # ── Variáveis com valores reais ───────────────
-# terraform.tfvars pode conter credenciais/IPs
-# Descomente se necessário:
-# terraform.tfvars
-# *.tfvars
-# *.tfvars.json
+# terraform.tfvars pode conter credenciais/IPs — NUNCA commitar
+terraform.tfvars
+*.tfvars.json
 
 # ── Chave privada SSH — NUNCA commitar ────────
 *.pem

@@ -1,6 +1,6 @@
 # =============================================
 # iam.tf — IAM Role + Instance Profile para EC2
-# TechNova — Emilly Santos de Oliveira (4023575)
+# TechNova — Fernanda Rosa Novais Tavares (4025109)
 # =============================================
 
 # ── Trust Policy para EC2 ─────────────────────

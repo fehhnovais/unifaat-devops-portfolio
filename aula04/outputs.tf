@@ -1,7 +1,7 @@
 
 # =============================================
 # outputs.tf — Outputs da Infraestrutura Aula 04
-# TechNova — Emilly Santos de Oliveira (4023575)
+# TechNova — Fernanda Rosa Novais Tavares (4025109)
 # =============================================
 
 # ── VPC ───────────────────────────────────────
