@@ -1,0 +1,146 @@
+name: CI Aula 08
+
+# Dispara em push na main e em qualquer Pull Request, além de execução manual
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'aula-08/app/**'
+      - '.github/workflows/ci-aula08.yml'
+  pull_request:
+    branches: [main]
+    paths:
+      - 'aula-08/app/**'
+      - '.github/workflows/ci-aula08.yml'
+  workflow_dispatch:
+
+# B4 (bônus): cancela execuções antigas do mesmo ref ainda em andamento
+concurrency:
+  group: ci-aula08-${{ github.ref }}
+  cancel-in-progress: true
+
+# Diretório onde vive a aplicação desta aula
+defaults:
+  run:
+    working-directory: aula-08/app
+
+jobs:
+  # ─────────────────────────────────────────────
+  # Job 1: Lint (ESLint)
+  # ─────────────────────────────────────────────
+  lint:
+    name: Lint (ESLint)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout do código
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'                       # B2 (bônus): cache de dependências
+          cache-dependency-path: aula-08/app/package-lock.json
+
+      - name: Instalar dependências
+        run: npm ci
+
+      - name: Executar ESLint
+        run: npm run lint
+
+  # ─────────────────────────────────────────────
+  # Job 2: Test (Jest com coverage, matrix Node 18 e 20)
+  # ─────────────────────────────────────────────
+  test:
+    name: Test (Jest - Node ${{ matrix.node }})
+    needs: lint
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node: [18, 20]                       # B1 (bônus): matrix strategy
+    steps:
+      - name: Checkout do código
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js ${{ matrix.node }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+          cache: 'npm'
+          cache-dependency-path: aula-08/app/package-lock.json
+
+      - name: Instalar dependências
+        run: npm ci
+
+      - name: Rodar testes com coverage
+        run: npm test
+
+      - name: Upload do relatório de coverage
+        if: matrix.node == 20
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-report
+          path: aula-08/app/coverage/
+          retention-days: 30
+
+  # ─────────────────────────────────────────────
+  # Job 3: Build (Docker) + smoke test
+  # ─────────────────────────────────────────────
+  build:
+    name: Build (Docker)
+    needs: [lint, test]
+    runs-on: ubuntu-latest
+    # R5: secret referenciado via environment (mascarado nos logs)
+    env:
+      AWS_REGION: ${{ secrets.AWS_REGION }}
+    steps:
+      - name: Checkout do código
+        uses: actions/checkout@v4
+
+      - name: Confirmar que o secret está disponível (mascarado)
+        run: |
+          if [ -z "$AWS_REGION" ]; then
+            echo "AWS_REGION não configurado como secret."
+          else
+            echo "AWS_REGION carregado via secret (valor mascarado nos logs)."
+          fi
+
+      - name: Build da imagem Docker
+        run: docker build -t technova-api:${{ github.sha }} .
+
+      # B5 (bônus): smoke test do container
+      - name: Smoke test do container
+        run: |
+          docker run -d --name technova-test -p 3000:3000 \
+            -e AWS_REGION="$AWS_REGION" technova-api:${{ github.sha }}
+          echo "Aguardando o container subir..."
+          sleep 5
+          curl --fail http://localhost:3000/health || (docker logs technova-test && exit 1)
+          echo "Health check OK."
+
+      - name: Parar e remover o container
+        if: always()
+        run: docker rm -f technova-test || true
+
+  # ─────────────────────────────────────────────
+  # Job 4: Comentário automático no PR (bônus B3)
+  # ─────────────────────────────────────────────
+  pr-comment:
+    name: Comentar no PR
+    needs: [lint, test, build]
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+    steps:
+      - name: Comentar resultado do CI
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: '✅ CI Aula 08 passou! Lint, testes (Node 18/20) e Docker build concluídos com sucesso.'
+            })
