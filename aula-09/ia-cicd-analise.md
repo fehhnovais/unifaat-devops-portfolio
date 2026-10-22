@@ -29,6 +29,25 @@ O projeto usa o **Amazon ECR** em vez de alternativas como GitHub Container Regi
   IAM**. Por isso a autenticação usa as credenciais da sessão, não um usuário dedicado.
 - Região fixa: **us-east-1**.
 
+### Limitação encontrada na execução (push bloqueado por SCP)
+
+Ao rodar o `ecr-push.sh`, todo o fluxo funcionou — descoberta do Account ID
+(`102416674465`), criação do repositório `technova-api` com scan-on-push, aplicação da
+lifecycle policy, login no ECR (`Login Succeeded`) e build da imagem multi-stage. **Apenas o
+push das camadas foi bloqueado** pela política de controle da organização do AWS Academy:
+
+```
+error from registry: User: arn:aws:sts::102416674465:assumed-role/voclabs/user... is not
+authorized to perform: ecr:UploadLayerPart on resource: .../technova-api with an explicit
+deny in a service control policy: .../service_control_policy/p-3p1n4vnd
+```
+
+Ou seja, **este Learner Lab deixa criar o repositório ECR, mas nega o upload de imagens**
+(`ecr:UploadLayerPart`) via SCP da organização. É uma restrição do ambiente, fora do controle
+do aluno — não é erro de código nem de credenciais. O mesmo `ecr-push.sh` publica normalmente
+em uma conta AWS sem essa SCP. Como contingência, o pipeline poderia apontar para outro
+registry (ex.: ghcr.io), mas isso foge do escopo do TF (que pede ECR).
+
 ## 2. Estratégia de tagging
 
 Cada push publica a imagem com múltiplas tags, cada uma com um propósito:

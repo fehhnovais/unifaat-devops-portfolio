@@ -12,13 +12,27 @@
 
 ## Evidências
 
-- [ ] Script `ecr-push.sh` publicando no **Amazon ECR** com tags (sha, latest, semver)
-- [ ] Repositório ECR `technova-api` criado no Learner Lab (`us-east-1`)
-- [ ] Pull da imagem a partir do ECR funcionando (rollback por tag)
+- [x] Script `ecr-push.sh` executado: cria repo, login, build OK — push bloqueado por SCP do Lab (ver nota)
+- [x] Repositório ECR `technova-api` criado no Learner Lab (`us-east-1`)
+- [ ] Pull da imagem a partir do ECR — não possível (push bloqueado pela SCP da organização)
 - [x] Workflow de AI Review disparando em PRs
 - [x] Quality gate (CRITICAL bloqueia o PR)
-- [x] `ia-cicd-analise.md` preenchido
-- [ ] Screenshots (console ECR com as tags, AI review, pipeline verde, gate bloqueando)
+- [x] `ia-cicd-analise.md` preenchido (inclui a limitação da SCP)
+- [ ] Screenshots (AI review, gate bloqueando, log do ecr-push.sh)
+
+## Nota sobre o Amazon ECR
+
+O `ecr-push.sh` rodou com a sessão do Learner Lab ativa e executou todo o fluxo: criação do
+repositório `technova-api` (scan-on-push), lifecycle policy, login (`Login Succeeded`) e build
+da imagem. O **push das camadas foi bloqueado** pela policy da organização do AWS Academy:
+
+```
+is not authorized to perform: ecr:UploadLayerPart ... explicit deny in a
+service control policy: .../p-3p1n4vnd
+```
+
+É uma restrição do ambiente (o Lab permite criar o repo, mas nega o upload de imagens), não um
+erro do script ou das credenciais. Detalhes em `ia-cicd-analise.md`.
 
 ## Bônus
 
