@@ -1,0 +1,15 @@
+{
+  "name": "technova-api-aula09",
+  "version": "1.2.3",
+  "description": "TechNova API - Aula 09 (Docker Registry ECR + AI Review no CI/CD)",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "node --test"
+  },
+  "author": "FERNANDA TAVARES (RA 4025109)",
+  "license": "MIT",
+  "dependencies": {
+    "express": "4.18.2"
+  }
+}
