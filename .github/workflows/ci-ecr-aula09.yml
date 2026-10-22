@@ -2,15 +2,14 @@ name: CI ECR Aula 09
 
 # Build e push da imagem para o Amazon ECR.
 # ATENÇÃO: as credenciais do AWS Academy Learner Lab são TEMPORÁRIAS (expiram a
-# cada sessão). Para o CI funcionar, atualize os 3 secrets antes de rodar:
+# cada sessão). Para rodar, atualize os 3 secrets antes de disparar manualmente:
 #   AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, AWS_SESSION_TOKEN
 # O fluxo confiável do TF é o script local ecr-push.sh.
+#
+# Executa SOMENTE sob demanda (workflow_dispatch). Não roda no push da main de
+# propósito: sem credenciais válidas (e com a SCP do Lab que bloqueia o push),
+# ele falharia a cada push, poluindo o histórico da main.
 on:
-  push:
-    branches: [main]
-    paths:
-      - 'aula-09/**'
-      - '.github/workflows/ci-ecr-aula09.yml'
   workflow_dispatch:
 
 env:

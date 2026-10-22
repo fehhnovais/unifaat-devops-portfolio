@@ -6,12 +6,10 @@
 # ──────────────────────────────────────────────────────────────
 name: CI ECR Aula 09
 
+# Executa SOMENTE sob demanda (workflow_dispatch). Não roda no push da main de
+# propósito: sem credenciais válidas (e com a SCP do Lab que bloqueia o push),
+# falharia a cada push.
 on:
-  push:
-    branches: [main]
-    paths:
-      - 'aula-09/**'
-      - '.github/workflows/ci-ecr-aula09.yml'
   workflow_dispatch:
 
 env:
