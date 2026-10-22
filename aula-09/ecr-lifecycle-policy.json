@@ -1,0 +1,26 @@
+{
+  "rules": [
+    {
+      "rulePriority": 1,
+      "description": "Expira imagens sem tag após 1 dia",
+      "selection": {
+        "tagStatus": "untagged",
+        "countType": "sinceImagePushed",
+        "countUnit": "days",
+        "countNumber": 1
+      },
+      "action": { "type": "expire" }
+    },
+    {
+      "rulePriority": 2,
+      "description": "Mantém apenas as 10 imagens mais recentes com tag sha-",
+      "selection": {
+        "tagStatus": "tagged",
+        "tagPrefixList": ["sha-"],
+        "countType": "imageCountMoreThan",
+        "countNumber": 10
+      },
+      "action": { "type": "expire" }
+    }
+  ]
+}

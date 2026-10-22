@@ -1,0 +1,6 @@
+node_modules/
+coverage/
+.env
+*.log
+ai-review-comment.md
+pr.diff

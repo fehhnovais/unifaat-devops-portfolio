@@ -1,0 +1,52 @@
+# ──────────────────────────────────────────────────────────────
+# CÓPIA DE REFERÊNCIA (documental) do workflow de CI/push para ECR.
+# O workflow que REALMENTE roda fica na raiz do repositório:
+#   .github/workflows/ci-ecr-aula09.yml
+# As credenciais do Learner Lab são temporárias (expiram por sessão).
+# ──────────────────────────────────────────────────────────────
+name: CI ECR Aula 09
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'aula-09/**'
+      - '.github/workflows/ci-ecr-aula09.yml'
+  workflow_dispatch:
+
+env:
+  AWS_REGION: us-east-1
+  REPO_NAME: technova-api
+
+jobs:
+  build-push:
+    name: Build e Push para ECR
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout do código
+        uses: actions/checkout@v4
+      - name: Configurar credenciais AWS (sessão do Learner Lab)
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }}
+          aws-region: ${{ env.AWS_REGION }}
+      - name: Login no Amazon ECR
+        id: ecr-login
+        uses: aws-actions/amazon-ecr-login@v2
+      - name: Garantir repositório ECR (idempotente)
+        run: |
+          aws ecr describe-repositories --repository-names "$REPO_NAME" --region "$AWS_REGION" \
+            || aws ecr create-repository --repository-name "$REPO_NAME" \
+                 --image-scanning-configuration scanOnPush=true --region "$AWS_REGION"
+      - name: Build e push com tags sha + latest
+        env:
+          REGISTRY: ${{ steps.ecr-login.outputs.registry }}
+        run: |
+          SHORT_SHA="$(git rev-parse --short HEAD)"
+          IMAGE_URI="$REGISTRY/$REPO_NAME"
+          cd aula-09
+          docker build -t "$IMAGE_URI:sha-$SHORT_SHA" -t "$IMAGE_URI:latest" .
+          docker push "$IMAGE_URI:sha-$SHORT_SHA"
+          docker push "$IMAGE_URI:latest"
