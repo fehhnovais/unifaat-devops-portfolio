@@ -94,6 +94,15 @@ const RULES = [
   }
 ];
 
+// Arquivos que são "ferramentas de análise" e contêm os padrões de propósito
+// (o próprio detector e os workflows de AI review). São ignorados para evitar
+// que o review se auto-detecte (falso positivo).
+const SELF_EXCLUDE = [
+  '.github/scripts/ai-review.js',
+  'ai-review.yml',
+  'ai-review-aula09.yml'
+];
+
 // ── Parser de diff unificado ─────────────────────────────────────
 // Retorna lista de { file, line, content } apenas para linhas adicionadas.
 function parseDiff(diff) {
@@ -130,6 +139,9 @@ function analyze(addedLines) {
   for (const { file, line, content } of addedLines) {
     // ignora arquivos que não são código-fonte
     if (file && /\.(md|lock|json|png|jpg|svg)$/i.test(file)) continue;
+    // ignora o próprio detector e os workflows de AI review: eles contêm os
+    // padrões (eval, debugger, console.log...) de PROPÓSITO, como regras/exemplos.
+    if (file && SELF_EXCLUDE.some((p) => file.includes(p))) continue;
     for (const rule of RULES) {
       try {
         if (rule.test(content)) {
